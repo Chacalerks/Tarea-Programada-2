@@ -5,6 +5,22 @@
 
 import re
 
+def validarEntero(num):
+    """
+    Funcionamiento: Determina si el número es connveritble a  un entero
+    Entradas:
+    -num(string): Una cadena de texto con la posibilidad de ser entero
+    Salidas: 
+    -True si el número sí es entero
+    -'a' si el número no fuese entero. 
+    """
+    try:
+        num = int(num)
+        if num > 0:
+            return True
+    except ValueError:
+        return False
+
 def validarCedula(id):
     """
     funcionamiento: Se encarga de validar que el numero de cedula ingresado por el usuario sea válido
@@ -24,7 +40,7 @@ def validarFecha(dob):
     salidas: True: si la fecha SÍ es válida 
     False: si la fecha NO es válida
     """
-    if re.match("^(0[1-9]|1[012])[-/.](0[1-9]|[12][0-9]|3[01])[-/.](19|20)\\d\\d$", dob):
+    if re.match("^(0[1-9]|[12][0-9]|3[01])[-/.](0[1-9]|1[012])[-/.](19[7-9][0-9]|200[0-3])$", dob):
         return True
     else:
         return False
@@ -61,13 +77,22 @@ def validarPeso(peso):
     False: si el peso NO es válida
     """
     try:
-        if int(peso) > 50 and int(peso) < 120:
+        if peso > 50 and peso < 120:
             return True
         else:
             return False   
     except:
         return False
 
-def 
-
-print(validarPeso("sadas"))
+def validarExistente(id, matriz):
+    """
+    funcionamiento: Se encarga de validar que el donador no haya sido ingresado ya
+    entradas: id: numero de cedula del donador
+    salidas: True: si el donador SI se encuentra ya en la base de datos
+    False: si el donador NO se encuentra en la base de datos
+    """
+    for i in matriz:
+        if id == i[0]:
+            return True
+    return False
+    
