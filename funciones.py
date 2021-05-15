@@ -1,157 +1,65 @@
-from tkinter import PhotoImage, StringVar
-import tkinter as tk
+from validaciones import validarCedula, validarExistente
+import names
+import random
+import time
+import string
 
-# diccionario de colores
-color = {"fondo":"#F0F0F0", "sidebar":"#052744", "topbar":"#0D5D8C", "caja": "#BFBFBF" ,  "principal": "#043E79", "secundario": "#043E79","tercero":"#0E3D5E"}
+def randomEmail(y):
+       email = ''.join(random.choice(string.ascii_lowercase) for x in range(y))
+       return email + random.choice(["@gmail.com","@costarricense.cr","@racsa.go.cr","@ccss.sa.cr"])
 
-# configuaricón de la ventana
-root = tk.Tk()
-root.title("Sistema de donaciones")
-root.geometry("1800x900+50+50")
+def str_time_prop(start, end, time_format, prop):
+    """Get a time at a proportion of a range of two formatted times.
+    start and end should be strings specifying times formatted in the
+    given format (strftime-style), giving an interval [start, end].
+    prop specifies how a proportion of the interval to be taken after
+    start.  The returned time will be in the specified format.
+    """
 
+    stime = time.mktime(time.strptime(start, time_format))
+    etime = time.mktime(time.strptime(end, time_format))
 
-# loading Navbar icon image:
-insertar = PhotoImage(file="D:\TEC\I SEMESTRE\Intro-Taller (Laura)\Taller\Tareas\Tarea Programada 2\Tarea-Programada-2\iconos\m[as.png")
-generar = PhotoImage(file="D:\TEC\I SEMESTRE\Intro-Taller (Laura)\Taller\Tareas\Tarea Programada 2\Tarea-Programada-2\iconos\menu.png")
+    ptime = stime + prop * (etime - stime)
 
-
-# top Navigation bar:
-topFrame = tk.Frame(root, bg=color["topbar"])
-topFrame.pack()
-# Header label text:
-titulo = tk.Label(topFrame, text="SISTEMA DE DONACIONES", font="Bahnschrift 15", fg="black", height=1, padx=20)
-titulo.pack()
-
-
-# setting Navbar frame:
-navFrame = tk.Frame(root, bg=color["sidebar"], width=300)
-navFrame.pack(side="left")
-
-corazon = PhotoImage(file="D:\TEC\I SEMESTRE\Intro-Taller (Laura)\Taller\Tareas\Tarea Programada 2\Tarea-Programada-2\iconos\cardiogram.png")
-mainFrame = tk.Frame(root, bg=color["principal"])
-mainFrame.pack()
+    return time.strftime(time_format, time.localtime(ptime))
 
 
-def menu():
-    limpiarFrame()
-    navbarBtn = tk.Label(mainFrame, image=corazon, bd=0)
-    navbarBtn.pack(side="top")
-def limpiarFrame():
-    for elemento in mainFrame.winfo_children():
-        elemento.destroy()
-
-
-def insertarDonadorES():
-
-    limpiarFrame()
-
-    grupo = tk.Frame(mainFrame, bg=color["fondo"],padx= 30, pady=10)
-
-    grupo.pack(side="left", fill=tk.BOTH)
-
-    cedula = StringVar()
-    tk.Label(grupo, text="Cédula",font="BahnschriftLight 12", bg=color["fondo"],width=10, fg="black").pack()
-    cedula_txt = tk.Entry(grupo,textvariable=cedula, bg=color["caja"],bd=0, width=50)
-    cedula_txt.pack()
-
-    nombreCompleto = StringVar()
-
-
-    regresar = tk.Button(mainFrame, text="< Regresar", font="Bahnschrift 15", fg="gray17",bd=0,height=2, padx=20, command=menu)
-    regresar.pack(side="right")
-
-    picha = cedula_txt.get()
-    print(picha,nombreCompleto)
-
-def poner(cedula,nombre):
-  cedula.set("")
-  nombre.set("")
-
-def actualizarDonadorES():
-    actualizarFrame = tk.Frame(root, bg=color["principal"],height= 1800,width=1500,padx= 30, pady=30)
-    actualizarFrame.place(x=300, y=30)
-    tk.Label(actualizarFrame, text="Cédula ionseral;ksdj",font="BahnschriftLight 12", bg=color["fondo"],width=10, fg="black").place(x=50,y=50)
-    regresar = tk.Label(actualizarFrame, text="PasdfE", font="Bahnschrift 15", fg="gray17", height=2, padx=20)
-    regresar.pack(side="right")
-
-
-# set y-coordinate of Navbar widgets:
-y = 80
-# option in the navbar:
-opciones = ["Insertar", "Generar", "Actualizar datos", "Eliminar", "Insertar lugar","Reportes", "Salir"]
-iconos = [insertar,generar ]
-# Navbar Option Buttons:
-
-
-insertarBtn = tk.Button(navFrame, text="Insertar",font="BahnschriftLight 12", bg=color["principal"],fg="white", activebackground="white",\
-activeforeground="black", bd=0, padx=60, pady=5, command=insertarDonadorES)
-insertarBtn.place(x=50, y=80, width=200)
-
-GenerarBtn = tk.Button(navFrame, text="Generar",font="BahnschriftLight 12", bg=color["principal"],fg="white", activebackground="white",\
-activeforeground="black", bd=0, padx=60, pady=5)
-GenerarBtn.place(x=50, y=160, width=200)
-
-ActualizarBtn = tk.Button(navFrame, text="Actualizar",font="BahnschriftLight 12", bg=color["principal"],fg="white", activebackground="white",\
-activeforeground="black", bd=0, padx=60, pady=5, command=actualizarDonadorES)
-ActualizarBtn.place(x=50, y=240, width=200)
-"""
-EliminarBtn = tk.Button(navRoot, text="Eliminar",font="BahnschriftLight 12", bg=color["principal"],fg="white", activebackground="white",\
-activeforeground="black", bd=0, padx=60, pady=5)
-EliminarBtn.place(x=55, y=360)
-
-
-opcion = tk.IntVar()
-opcion.get()
-tk.Label(navFrame, text="Menú",font="BahnschriftLight 12", bg=color["sidebar"],width=27, fg="white",pady=15).pack(side="top")
-for i in range(7):
-    #tk.Button(navRoot,  image=iconos[0],bg=color["sidebar"], bd=0 ).place(x=25, y=y)
-    tk.Button(navFrame,text=opciones[i],cursor="dot", font="BahnschriftLight 12", bg=color["principal"],width=20, fg="white", activebackground="white",activeforeground="black", bd=0, pady=5).place(x=25, y=y)
-    y += 80
-"""
-
-
-# contenedor principal 
-
-
-
-
-# window in mainloop:
-root.mainloop()
-
-"""
-from tkinter import *
-
-
-
-ventanaMain = Tk()
-ventanaMain.geometry("650x550")
-ventanaMain.title("Registration Form - Python + Tkinter")
-
-
-
-barraMenu = Menu(ventanaMain)
-barraMenu.add_command(label="Insertar Donador")
-barraMenu.add_command(label="Generar  Donadores")
-barraMenu.add_command(label="Actualizar datos del donador")
-barraMenu.add_command(label="Eliminar donador")
-barraMenu.add_command(label="Insertar lugar de donación según provincia")
-barraMenu.add_command(label="Reportes")
-barraMenu.add_command(label="Sa;or")
-
-
-ventanaMain.config(menu=barraMenu)
-ventanaMain.mainloop()
-
-
-root = Tk()
-
-e = Entry(root,width=50)
-e.pack()
-def picha(titulo): 
+def random_date(start, end, prop):
+    return str_time_prop(start, end, '%m/%d/%Y %I:%M %p', prop)
     
-    my= Label(root, text=titulo +e.get())
-    my.pack()
 
-myLabel1 = Label(root, text="este es el seunndo label")
-button = Button(root, text="Picha", command=picha)
-"""
+def insertarDonador(datos, matriz):
+    """
+    funcionamiento: Se encarga insertar el donador en la base de datos con la información correspondiente
+    entradas: Datos: los datos ha registrar del donador matriz: variable a guardar
+    salidas: la matriz con el nuevo donador
+    """
+    datos.append(1)
+    datos.append(0)
+    matriz.append(datos)
+    return matriz
+
+def generarDonadores(cant, matriz):
+    cant = int(cant)
+    while cant != 0:
+        insertarDonador(randomDonador(),matriz)
+        cant-=1
+
+    
+def randomDonador():
+    donador = []
+    donador.append(str(random.randint(1,9))+"-"+str(random.randint(1000,9999))+"-"+str(random.randint(1000,9999)))
+    m = names.get_full_name(gender='male')
+    f = names.get_full_name(gender='female')
+    winner = random.choice([m, f])
+    donador.append(winner)
+    donador.append(random_date("1/1/1970 1:30 PM", "1/1/2003 4:50 AM", random.random())[0:10])
+    donador.append(random.choice(["O", "A", "B", "AB"])+random.choice("-+"))
+    if winner == m:
+        donador.append(True)
+    else:
+        donador.append(False)
+    donador.append(random.randint(51,120))
+    donador.append(str(random.randint(2000,9999))+"-"+str(random.randint(2000,9999)))
+    donador.append(randomEmail(7))
+    return donador

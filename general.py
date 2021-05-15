@@ -1,4 +1,4 @@
-from tkinter import StringVar
+from tkinter import StringVar,IntVar
 import tkinter as tk
 
 color = {"fondo":"#F0F0F0", "sidebar":"#052744", "topbar":"#0D5D8C", "caja": "#BFBFBF" ,  "principal": "#043E79", "secundario": "#043E79","tercero":"#0E3D5E"}
@@ -6,7 +6,7 @@ color = {"fondo":"#F0F0F0", "sidebar":"#052744", "topbar":"#0D5D8C", "caja": "#B
 #----------------------------------------------------------------------------
 #                           Navegación
 #----------------------------------------------------------------------------
-def cargarInicio(mainFrame, corazon_img, datosCache, datos):
+def cargarInicio(mainFrame, corazon_img):
     """
     Funcionamiento: Se encarga de crear todos lo elementos del formulario insertar.
     Entradas: -mainFrame: mainFrameEl contenedor(frame)
@@ -15,10 +15,7 @@ def cargarInicio(mainFrame, corazon_img, datosCache, datos):
     limpiarFrame(mainFrame)
     corazon_lb = tk.Label(mainFrame, image=corazon_img, bd=0)
     corazon_lb.pack(side="top")
-    temp = obtenerDatos(datos)
-    datosCache=temp
-    
-    return datosCache
+
 
 def limpiarFrame(mainFrame):
     """
@@ -29,7 +26,7 @@ def limpiarFrame(mainFrame):
     for elemento in mainFrame.winfo_children():
         elemento.destroy()
 
-def limpiarCampos(datosCache, datos):
+def limpiarCampos(datos):
     """
     Funcionamiento: Limpia los campos del formulario.
     Entradas: Las variables que esta enlazadas alformulario
@@ -38,7 +35,6 @@ def limpiarCampos(datosCache, datos):
     i = 0
     while i<len(datos):
         datos[i].set("")
-        datosCache[i]= ""
         i+=1
 #----------------------------------------------------------------------------
 #                           Entrada y Salida
@@ -51,19 +47,23 @@ def establecerDatos(datosString):
     """
     datos = []
     i=0
-    if len(datosString)==0:    
+    if len(datosString)==0:    # Cuando no hay datos que leer []
         while True:
-            datos.append(StringVar())
-            datos[i].set("")
+            if i == 5:
+                datos.append(IntVar())
+                datos[i].set(0)
+            else:
+                datos.append(StringVar())
+                datos[i].set("")            
+                if i==7:
+                    break
             i+=1
-            if i==8:
-                break
-    else:
+    else: # cuando se van a cargar datos en el formularios
         while True:
             datos.append(StringVar())
             datos[i].set(datosString[i])
             i+=1
-            if i==8:
+            if i==7:
                 break
     return datos
 def obtenerDatos(datos):

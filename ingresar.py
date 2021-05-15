@@ -4,12 +4,14 @@
 #Versión: 3.9.5
 
 import tkinter as tk
-from tkinter import ttk
+from tkinter import StringVar, ttk
 from tkinter.constants import E
 from general import *
 from validaciones import *
+from funciones import *
+from archivo import*
 
-def insertarDonadorES(mainFrame,corazon_img,dicc,datosCache):
+def insertarDonadorES(mainFrame,corazon_img,matriz,datos=[]):
     """
     Funcionamiento: Se encarga de crear todos lo elementos del formulario insertar.
     Entradas: -mainFrame: mainFrameEl contenedor(frame)
@@ -18,7 +20,7 @@ def insertarDonadorES(mainFrame,corazon_img,dicc,datosCache):
     limpiarFrame(mainFrame)
     grupo = tk.Frame(mainFrame, bg=color["fondo"],padx= 30, pady=60)
     grupo.pack(fill=tk.BOTH,expand=1)
-    datos = establecerDatos(datosCache)
+    datos = establecerDatos(datos)
     #Cédula
     tk.Label(grupo, text="Cédula: ",font="BahnschriftLight 12", bg=color["fondo"],fg="black").grid(row=0, column=0, pady=10,padx=10,sticky=E)
     cedula_txt = ttk.Entry(grupo,textvariable=datos[0], width=50)
@@ -63,20 +65,53 @@ def insertarDonadorES(mainFrame,corazon_img,dicc,datosCache):
     email_txt = ttk.Entry(grupo,textvariable=datos[7], width=50)
     email_txt.grid(row=8, column=1, pady=10,padx=10)
 
-    Ingresar_btn = ttk.Button(grupo, text="Registrar",width=70, padding=20, command=lambda:ingresarValidaciones(datos,dicc))
-    Ingresar_btn.grid(row=9, column=0, columnspan=2)
+    ingresar_btn = ttk.Button(grupo, text="Registrar",width=40,padding=20, command=lambda:ingresarDatosValidaciones(datos,matriz))
+    ingresar_btn.grid(row=9, column=0,padx=5, pady=35)
 
-    limpiar_btn = ttk.Button(grupo, text="Limpiar",width=70, padding=20, command=lambda:limpiarCampos(datosCache,datos))
-    limpiar_btn.grid(row=10, column=0, columnspan=2)
+    limpiar_btn = ttk.Button(grupo, text="Limpiar",width=40,padding=20, command=lambda:limpiarCampos(datos))
+    limpiar_btn.grid(row=9, column=1,padx=5, pady=35)
 
-    regresar_btn = tk.Button(grupo, text="< Regresar", font="Bahnschrift 15", fg="gray17",bd=0, width=50, padx=20,command=lambda:cargarInicio(mainFrame,corazon_img,datosCache,datos))
+    regresar_btn = tk.Button(grupo, text="< Regresar", font="Bahnschrift 15", fg="gray17",bd=0, width=50, padx=20,command=lambda:cargarInicio(mainFrame,corazon_img))
     regresar_btn.grid(row=0,rowspan=2, column=2, columnspan=2, pady=10, padx=10, sticky=E)
 
-def ingresarValidaciones(datos,dicc):
+def actulizarDonadorES(mainFrame,corazon_img,matriz):
+    limpiarFrame(mainFrame)
+    grupo = tk.Frame(mainFrame, bg=color["fondo"],padx= 30, pady=60)
+    grupo.pack(fill=tk.BOTH,expand=1)
+    cedula = StringVar()
+    #Cédula
+    tk.Label(grupo, text="Cédula: ",font="BahnschriftLight 12", bg=color["fondo"],fg="black").grid(row=0, column=0, pady=10,padx=10,sticky=E)
+    cedula_txt = ttk.Entry(grupo,textvariable=cedula, width=50)
+    cedula_txt.grid(row=0, column=1, pady=10,padx=10)
+
+    buscar_btn = ttk.Button(grupo, text="Registrar",width=40,padding=20, command=lambda:buscarCedula(mainFrame,corazon_img,matriz,cedula))
+    buscar_btn.grid(row=2, column=1,padx=5, pady=35)
+
+    regresar_btn = tk.Button(grupo, text="< Regresar", font="Bahnschrift 15", fg="gray17",bd=0, width=50, padx=20,command=lambda:cargarInicio(mainFrame,corazon_img))
+    regresar_btn.grid(row=0,rowspan=2, column=2, columnspan=2, pady=10, padx=10, sticky=E)
+
+def buscarCedula(mainFrame,corazon_img,matriz,cedula):
+    cedula=cedula.get()
+    if validarExistente(cedula,matriz):
+        insertarDonadorES(mainFrame,corazon_img,matriz,matriz[0])
+    
+def ingresarDatosValidaciones(datos,matriz):
+    
     datosString=obtenerDatos(datos)
-    if validarCedula(datosString[0]):
-        if validarFecha(datosString[2]):
-            insertarDonador(datosString, dicc)
-        else:
-            print("no joda fecha invalida")
+    print(datosString)    
+    if not validarCedula(datosString[0]):
+        print("Formato de cédula incorrecto")
+    elif validarExistente(datosString[0],matriz):
+        print("Ya se encuentra un donador registrado con esa cédula")
+    elif not validarFecha(datosString[2]):
+        print("Fecha inválida")
+    elif not validarPeso(datosString[5]):
+        print("Peso no apto para un donador")
+    elif not validarTelefono(datosString[6]):
+        print("Formato incorrecto de número de celular")
+    elif not validarCorreo(datosString[7]):
+        print("Formato de correo inválido")
+    else:
+       insertarDonador(datosString, matriz)
+       guardarDatos('datos',matriz)
 
