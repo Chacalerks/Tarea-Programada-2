@@ -17,7 +17,40 @@ def validarEntero(num):
             return True
     except ValueError:
         return False
+        
+def validarVacio(texto):
+    """
+    Funcionamiento: Determina si la valiarble es vacía
+    Entradas: texto(string): la varaiable a validar 
+    Salidas: True/False de la condición dada (texto vacío)
+    """
+    if texto!="":
+        return True
+    else:
+        return False
 
+def enteroMayorCero(num):
+    """
+    Funcionamiento: Determina si el número mayor a cero
+    Entradas: num(int): el número a válidar
+    Salidas: True/Fase de la condición dada (mayor a cero)
+    """
+    if num >0:
+        return True
+    else:
+        return False
+def validarNombre(nombre):
+    print(nombre)
+    """
+    funcionamiento: Se encarga de validar que el nombre ingresado por el usuario sea válido
+    entradas: nombre: elnombre del donador a validar
+    salidas: true/false según la condición dada (nombre válido)
+    """
+    if re.match("^[a-zA-Z]+\ [a-zA-Z]+\ (([a-zA-Z]+\ [a-zA-Z]+)|[a-zA-Z]+)$", nombre):
+        return True
+    else:
+        return False
+    
 def validarCedula(id):
     """
     funcionamiento: Se encarga de validar que el numero de cedula ingresado por el usuario sea válido
@@ -41,7 +74,7 @@ def validarFecha(dob):
         return True
     else:
         return False
-    
+
 def validarCorreo(correo):
     """
     funcionamiento: Se encarga de validar que la el correo electronico del donador sea valido
@@ -92,3 +125,4 @@ def validarExistente(id, matriz):
         if id == i[0]:
             return True
     return False
+

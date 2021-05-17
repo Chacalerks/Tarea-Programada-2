@@ -3,6 +3,8 @@ import tkinter as tk
 
 from ingresar import*
 from generar import*
+from eliminar import*
+
 from general import*
 
 from funciones import *
@@ -10,6 +12,7 @@ from archivo import *
 from validaciones import *
 matriz= []
 matriz = leerDatos('datos')
+dicc = leerDatos('provincias')
 print(matriz)
     
 # diccionario de colores
@@ -57,6 +60,20 @@ actualizar_btn = tk.Button(navFrame, text="Actualizar",font="BahnschriftLight 12
 activeforeground="black", bd=0, padx=60, pady=5, command=lambda:actulizarDonadorES(mainFrame, corazon_img, matriz))
 actualizar_btn.place(x=50, y=240, width=200)
 
+#Eliminar
+eliminar_btn = tk.Button(navFrame, text="Eliminar",font="BahnschriftLight 12", bg=color["principal"],fg="white", activebackground="white",\
+activeforeground="black", bd=0, padx=60, pady=5, command=lambda:eliminarES(mainFrame, corazon_img, matriz))
+eliminar_btn.place(x=50, y=320, width=200)
+
+#Provincia
+provincia_btn = tk.Button(navFrame, text="Según Provincia",font="BahnschriftLight 12", bg=color["principal"],fg="white", activebackground="white",\
+activeforeground="black", bd=0, padx=60, pady=5, command=lambda:actulizarDonadorES(mainFrame, corazon_img, matriz))
+provincia_btn.place(x=50, y=400, width=200)
+
+#Reportes
+reportes_btn = tk.Button(navFrame, text="Reportes",font="BahnschriftLight 12", bg=color["principal"],fg="white", activebackground="white",\
+activeforeground="black", bd=0, padx=60, pady=5, command=lambda:actulizarDonadorES(mainFrame, corazon_img, matriz))
+reportes_btn.place(x=50, y=480, width=200)
 
 #Cargar Ventana:
 root.mainloop()

@@ -63,3 +63,23 @@ def randomDonador():
     donador.append(str(random.randint(2000,9999))+"-"+str(random.randint(2000,9999)))
     donador.append(randomEmail(7))
     return donador
+
+#----------------------------------------------------------------------------#
+#                           Base de datos                                    #
+#----------------------------------------------------------------------------#
+def obtenerDatosDonador(cedula, matriz):
+    for i in matriz:
+        if i[0] == cedula:
+            return matriz[matriz.index(i)]
+
+def actulizarDonador(datos, matriz):
+    matriz[matriz.index(datos)] = datos
+
+
+#----------------------------------------------------------------------------#
+#                           Provincias                                       #
+#----------------------------------------------------------------------------#
+
+
+
+

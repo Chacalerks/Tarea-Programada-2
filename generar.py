@@ -4,7 +4,7 @@
 #Versión: 3.9.5
 
 import tkinter as tk
-from tkinter import IntVar, ttk
+from tkinter import IntVar, ttk, messagebox
 from tkinter.constants import E
 from general import *
 from validaciones import *
@@ -31,10 +31,11 @@ def generarDonadorES(mainFrame,corazon_img,matriz):
     generar_btn = ttk.Button(grupo, text="Generar Donadores",width=40,padding=20, command=lambda:generarDonadoresValidaciones(cantidad,matriz))
     generar_btn.grid(row=9, column=1,padx=5, pady=35)
 
-    regresar_btn = tk.Button(grupo, text="< Regresar", font="Bahnschrift 15", fg="gray17",bd=0, width=50, padx=20,command=lambda:cargarInicio(mainFrame,corazon_img))
-    regresar_btn.grid(row=0,rowspan=2, column=2, columnspan=2, pady=10, padx=10, sticky=E)
+    regresar_btn = tk.Button(grupo, text="< Regresar", font="Bahnschrift 15", fg="gray17",bd=0, command=lambda:cargarInicio(mainFrame,corazon_img))
+    regresar_btn.grid(row=0,rowspan=2, column=2, columnspan=2, pady=10,padx=450,  sticky=E)
 
 def generarDonadoresValidaciones(cantidad,matriz):
     cantidad = cantidad.get()
     generarDonadores(cantidad,matriz)
     guardarDatos('datos',matriz)
+    messagebox.showinfo(title=tittle, message="Se han generado "+str(cantidad)+" donadores correctamente")

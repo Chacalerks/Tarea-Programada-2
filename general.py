@@ -1,8 +1,8 @@
-from tkinter import StringVar,IntVar
+from tkinter import BooleanVar, StringVar
 import tkinter as tk
 
 color = {"fondo":"#F0F0F0", "sidebar":"#052744", "topbar":"#0D5D8C", "caja": "#BFBFBF" ,  "principal": "#043E79", "secundario": "#043E79","tercero":"#0E3D5E"}
-
+tittle = "Sistema de donación"
 #----------------------------------------------------------------------------
 #                           Navegación
 #----------------------------------------------------------------------------
@@ -47,11 +47,11 @@ def establecerDatos(datosString):
     """
     datos = []
     i=0
-    if len(datosString)==0:    # Cuando no hay datos que leer []
+    if len(datosString)==0:# Cuando no hay datos que leer []
         while True:
-            if i == 5:
-                datos.append(IntVar())
-                datos[i].set(0)
+            if i == 4 :
+                datos.append(BooleanVar())
+                datos[i].set(True)
             else:
                 datos.append(StringVar())
                 datos[i].set("")            
@@ -60,11 +60,15 @@ def establecerDatos(datosString):
             i+=1
     else: # cuando se van a cargar datos en el formularios
         while True:
-            datos.append(StringVar())
-            datos[i].set(datosString[i])
+            if i == 4 :
+                datos.append(BooleanVar())
+                datos[i].set(datosString[i])
+            else:
+                datos.append(StringVar())
+                datos[i].set(datosString[i])            
+                if i==7:
+                    break
             i+=1
-            if i==7:
-                break
     return datos
 def obtenerDatos(datos):
     """
@@ -77,11 +81,13 @@ def obtenerDatos(datos):
     while i<len(datos):
         datosString.append(datos[i].get())
         i+=1
+    if datosString[5].isdigit():
+        datosString[5]=int(datosString[5])
     return datosString
 #----------------------------------------------------------------------------
 #                           Procesar
 #----------------------------------------------------------------------------
-def insertarDonador(datos, dicc):
+def insertarDonador(datos, matriz):
     """
     funcionamiento: Se encarga insertar el donador en la base de datos con la información correspondiente
     entradas: id: cédula de la persona, nombre: nombre completo de la persona, dob: la fecha de nacimiento
@@ -96,5 +102,6 @@ def insertarDonador(datos, dicc):
     while i<len(datos):
         fila.append(datos[i])
         i+=1
-    dicc[id] = fila
-    return dicc
+    matriz[id] = fila
+    return matriz
+
