@@ -42,6 +42,8 @@ def insertarDonador(datos, matriz):
     de la persona, matriz: la base de datos.
     salidas: la matriz con el nuevo donador
     """
+    datos.append(1)
+    datos.append(0)
     matriz.append(datos)
     return matriz
 
@@ -68,7 +70,6 @@ def randomDonador():
     donador.append(random.randint(51,120))
     donador.append(str(random.randint(2000,9999))+"-"+str(random.randint(2000,9999)))
     donador.append(randomEmail(7))
-    donador.append(1)
     return donador
     
 
@@ -84,3 +85,9 @@ for i in matriz:
 var = input("Aqui: ")
 
 print(validarExistente(var, matriz))
+
+# Arreglar la validacion de la fecha de nacimiento y los mayores a 18 años por meses
+# Generar donantes respecto a una resta de años, no sólo entre dos fechas, para que así sea flexible con el paso del tiempo
+# Hacer Actualizar donador
+# Eliminar donador
+# Insertar lugar de donación según provincia en un archivo diferente al de los donadores
