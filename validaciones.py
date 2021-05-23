@@ -4,6 +4,7 @@
 #Versión: 3.9.5
 
 import re
+from datetime import datetime
 
 def validarEntero(num):
     """
@@ -33,18 +34,33 @@ def validarCedula(id):
     else:
         return False
 
-def validarFecha(dob):
+def validarFormatoFecha(dob):
     """
     funcionamiento: Se encarga de validar que la fecha de nacimiento del donante sea válida
     entradas: dob: la fecha de nacimiento del donante
     salidas: True: si la fecha SÍ es válida 
     False: si la fecha NO es válida
     """
-    if re.match("^(0[1-9]|[12][0-9]|3[01])[-/.](0[1-9]|1[012])[-/.](19[7-9][0-9]|200[0-3])$", dob):
+    if re.match("^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19[0-9][0-9]|20[0-9][0-9])$", dob):
         return True
     else:
         return False
-    
+
+def validarEdad(dob):
+    """
+    funcionamiento: se encarga de validar que el donante sea mayor a 18 años
+    entradas: la fecha del donante
+    salidas: true: si el donante es mayor de edad
+    False: si el donante NO es mayor de edad
+    """
+    fecha = datetime.strptime(dob, '%d/%m/%Y')
+    resta = datetime.now() - fecha
+    resta = resta.days
+    if resta >= 6575 and resta <= 38100:
+        return True
+    else:
+        return False
+
 def validarCorreo(correo):
     """
     funcionamiento: Se encarga de validar que la el correo electronico del donador sea valido
@@ -95,4 +111,18 @@ def validarExistente(id, matriz):
         if id == i[0]:
             return True
     return False
-    
+
+def validarRangoEdad(edad):
+    """
+    funcionamiento: Se encarga de validar la edad que el usuario ingrese de un donante en los reportes
+    entradas: edad: la edad que haya ingresado
+    salidas: True: si la edad SI es igual o mayor a 18 y menor o igual a 60
+    False: si la edad NO es mayor a 18 o si la edad es mayor a 60
+    """
+    try:
+        if int(edad) >= 18 and int(edad) < 60:
+            return True
+        else:
+            return False
+    except:
+        return False

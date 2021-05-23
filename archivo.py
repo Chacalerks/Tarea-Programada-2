@@ -21,4 +21,13 @@ def guardarDatos(nomArchGrabar,dicc):
         f.close()
     except:
         print("Error al grabar el archivo: ", nomArchGrabar)
-    return
+    return False
+
+def crearArchivo(nomArchGrabar,html):
+    try:
+        f = open(nomArchGrabar,'w')
+        f.write(html)
+        f.close()
+    except:
+        print("Error al grabar el archivo: index.html")
+    return False
