@@ -4,19 +4,23 @@ import tkinter as tk
 from ingresar import*
 from generar import*
 from eliminar import*
+from provincias import *
 
 from general import*
-
 from funciones import *
 from archivo import *
 from validaciones import *
 matriz= []
 matriz = leerDatos('datos')
 dicc = leerDatos('provincias')
+
 print(matriz)
-    
+print("\n\n")
+print(dicc)    
 # diccionario de colores
 color = {"fondo":"#F0F0F0", "sidebar":"#052744", "topbar":"#0D5D8C", "caja": "#BFBFBF" ,  "principal": "#043E79", "secundario": "#043E79","tercero":"#0E3D5E"}
+
+
 
 #Configuaricón de la ventana
 root = tk.Tk()
@@ -47,7 +51,7 @@ corazon_lb.pack(side="top")
 #Botones de navegación:
 #Insertar
 insertar_btn = tk.Button(navFrame, text="Insertar",font="BahnschriftLight 12", bg=color["principal"],fg="white", activebackground="white",\
-activeforeground="black", bd=0, padx=60, pady=5, command=lambda:insertarDonadorES(mainFrame, corazon_img, matriz))
+activeforeground="black", bd=0, padx=60, pady=5, command=lambda:insertarDonadorES(mainFrame, corazon_img, matriz,[],"I",dicc))
 insertar_btn.place(x=50, y=80, width=200)
 
 #Generar
@@ -67,7 +71,7 @@ eliminar_btn.place(x=50, y=320, width=200)
 
 #Provincia
 provincia_btn = tk.Button(navFrame, text="Según Provincia",font="BahnschriftLight 12", bg=color["principal"],fg="white", activebackground="white",\
-activeforeground="black", bd=0, padx=60, pady=5, command=lambda:actulizarDonadorES(mainFrame, corazon_img, matriz))
+activeforeground="black", bd=0, padx=60, pady=5, command=lambda:insertarLugarES(mainFrame,corazon_img,dicc))
 provincia_btn.place(x=50, y=400, width=200)
 
 #Reportes

@@ -12,7 +12,7 @@ from validaciones import *
 from funciones import *
 from archivo import*
 
-def insertarDonadorES(mainFrame,corazon_img,matriz,datos=[],categoria="I"):
+def insertarDonadorES(mainFrame,corazon_img,matriz,datos=[],categoria="I",dicc=""):
     """
     Funcionamiento: Se encarga de crear todos lo elementos del formulario insertar.
     Entradas: -mainFrame: mainFrameEl contenedor(frame)
@@ -69,7 +69,7 @@ def insertarDonadorES(mainFrame,corazon_img,matriz,datos=[],categoria="I"):
     email_txt = ttk.Entry(grupo,textvariable=datos[7], width=50)
     email_txt.grid(row=8, column=1, pady=10,padx=10)
 
-    ingresar_btn = ttk.Button(grupo, text="Registrar",width=40,padding=20, command=lambda:ingresarDatosValidaciones(mainFrame,corazon_img,datos,matriz,categoria))
+    ingresar_btn = ttk.Button(grupo, text="Registrar",width=40,padding=20, command=lambda:ingresarDatosValidaciones(mainFrame,corazon_img,datos,matriz,categoria,dicc))
     ingresar_btn.grid(row=9, column=0,padx=5, pady=35)
 
     limpiar_btn = ttk.Button(grupo, text="Limpiar",width=40,padding=20, command=lambda:limpiarCampos(datos))
@@ -108,7 +108,7 @@ def buscarCedula(mainFrame,corazon_img,matriz,cedula):
 
 
     
-def ingresarDatosValidaciones(mainFrame,corazon_img,datos,matriz,categoria):
+def ingresarDatosValidaciones(mainFrame,corazon_img,datos,matriz,categoria,dicc):
     
     datosString=obtenerDatos(datos)
     print(datosString)    
@@ -128,7 +128,7 @@ def ingresarDatosValidaciones(mainFrame,corazon_img,datos,matriz,categoria):
         messagebox.showwarning(title=tittle, message="Formato incorrecto de número de celular")
     elif not validarCorreo(datosString[7]):
         messagebox.showwarning(title=tittle, message="Formato de correo inválido")
-    elif categoria != "I":
+    elif categoria != "I": #Actualizaci[on]
         if messagebox.askquestion(title=tittle, message="¿Desea actualizar los datos?") =="yes":
             completarDatosActualizar(mainFrame,corazon_img,datosString,matriz)
         else:
@@ -137,6 +137,7 @@ def ingresarDatosValidaciones(mainFrame,corazon_img,datos,matriz,categoria):
        insertarDonador(datosString, matriz)
        guardarDatos('datos',matriz)
        messagebox.showinfo(title=tittle, message="Se ha registrado correctamente")
+       informacionInicial(datosString[3],datosString[0],dicc)
        
 
 def completarDatosActualizar(mainFrame,corazon_img,datosString,matriz):
@@ -151,9 +152,16 @@ def completarDatosActualizar(mainFrame,corazon_img,datosString,matriz):
     actulizarDonador(datosObtenidos,matriz)
     guardarDatos('datos',matriz)
     messagebox.showinfo(title=tittle, message="Datos actualizados correctamente")
-    cargarInicio(mainFrame,corazon_img,)
+    cargarInicio(mainFrame,corazon_img)
+
+
+def informacionInicial(sangre,cedula,dicc):
+
+    info = "Información \n\n+Su sangre es de tipo "+sangre+" ,por esto "+datosSangre(sangre) + "\n\n+" +datosLugares(cedula,dicc)       
+    messagebox.showinfo(title="IMPORTANTE", message=info)
     
-provincias = {'San Jose':['El banco nacional de sangre', 'Hospital Mexico', 'Hospital San Juan de Dios'],
+
+provincias = {'San Jose':['Esto es una puralsd de guare', 'Hospital Mexico', 'Hospital San Juan de Dios'],
            'Alajuela':['Hospiital San Rafael de Alajuela','Hospital de San Ramon','Hospital de Canton Norteno'],
            'Cartago':['Hospital Max Peralta'],
            'Heredia':['Hospital San Vicente de Paul'],
@@ -162,3 +170,4 @@ provincias = {'San Jose':['El banco nacional de sangre', 'Hospital Mexico', 'Hos
            'Limon':['Hospital Tony Facio','Hospital de Gupiles']}
            
 guardarDatos('provincias',provincias)
+print(provincias)

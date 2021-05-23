@@ -34,7 +34,10 @@ def limpiarCampos(datos):
     """
     i = 0
     while i<len(datos):
-        datos[i].set("")
+        if i == 4:
+            datos[i].set(True)
+        else:
+            datos[i].set("")
         i+=1
 #----------------------------------------------------------------------------
 #                           Entrada y Salida
@@ -84,24 +87,4 @@ def obtenerDatos(datos):
     if datosString[5].isdigit():
         datosString[5]=int(datosString[5])
     return datosString
-#----------------------------------------------------------------------------
-#                           Procesar
-#----------------------------------------------------------------------------
-def insertarDonador(datos, matriz):
-    """
-    funcionamiento: Se encarga insertar el donador en la base de datos con la información correspondiente
-    entradas: id: cédula de la persona, nombre: nombre completo de la persona, dob: la fecha de nacimiento
-    de la persona, tipoSangre: el tipo de sangre de la persona, sexo: el sexo biológico de la persona, 
-    peso: cuanto pesa la persona, telefono: el numero de contacto de la persona, correo: el correo electrónico
-    de la persona, dicc: la base de datos.
-    salidas: el diccionario con el nuevo donador
-    """
-    id = datos[0]
-    fila= []
-    i =1
-    while i<len(datos):
-        fila.append(datos[i])
-        i+=1
-    matriz[id] = fila
-    return matriz
 
