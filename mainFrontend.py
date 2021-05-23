@@ -10,6 +10,7 @@ from general import*
 from funciones import *
 from archivo import *
 from validaciones import *
+from reportes import *
 matriz= []
 matriz = leerDatos('datos')
 dicc = leerDatos('provincias')
@@ -76,7 +77,7 @@ provincia_btn.place(x=50, y=400, width=200)
 
 #Reportes
 reportes_btn = tk.Button(navFrame, text="Reportes",font="BahnschriftLight 12", bg=color["principal"],fg="white", activebackground="white",\
-activeforeground="black", bd=0, padx=60, pady=5, command=lambda:actulizarDonadorES(mainFrame, corazon_img, matriz))
+activeforeground="black", bd=0, padx=60, pady=5, command=lambda:reportesPorProvincia(mainFrame, corazon_img, matriz))
 reportes_btn.place(x=50, y=480, width=200)
 
 #Cargar Ventana:

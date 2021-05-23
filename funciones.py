@@ -1,8 +1,11 @@
-from validaciones import validarCedula, validarExistente
+from validaciones import *
 import names
 import random
-import time
+from datetime import datetime
 import string
+from dateutil.relativedelta import relativedelta
+import time
+
 def determinarPar(num):
     """
     Funcionamiento: Determina si el número es par
@@ -22,13 +25,14 @@ def randomEmail(y):
        return email + random.choice(["@gmail.com","@costarricense.cr","@racsa.go.cr","@ccss.sa.cr"])
 
 def str_time_prop(start, end, time_format, prop):
-    """Get a time at a proportion of a range of two formatted times.
-    start and end should be strings specifying times formatted in the
-    given format (strftime-style), giving an interval [start, end].
-    prop specifies how a proportion of the interval to be taken after
-    start.  The returned time will be in the specified format.
     """
-
+    funcionamiento: genera una fecha aleatoria entre dos fechas dadas
+    entradas: start: la fecha inicial
+    end: la fecha futura
+    time_format: el formato de la fecha
+    prop: numero aleatorio para sacar la fecha
+    salidas: la fecha aleatoria
+    """
     stime = time.mktime(time.strptime(start, time_format))
     etime = time.mktime(time.strptime(end, time_format))
 
@@ -36,9 +40,13 @@ def str_time_prop(start, end, time_format, prop):
 
     return time.strftime(time_format, time.localtime(ptime))
 
-
 def random_date(start, end, prop):
-    return str_time_prop(start, end, '%m/%d/%Y %I:%M %p', prop)
+    return str_time_prop(start, end, '%d/%m/%Y', prop)
+
+def generarRangoFecha():
+    fechaMin = (datetime.today() + relativedelta(years=-18)).strftime('%d/%m/%Y')
+    fechaMax = (datetime.today() + relativedelta(years=-50)).strftime('%d/%m/%Y')
+    return [fechaMax,fechaMin]
     
 
 def generarDonadores(cant, matriz):
@@ -46,7 +54,6 @@ def generarDonadores(cant, matriz):
     while cant != 0:
         insertarDonador(randomDonador(),matriz)
         cant-=1
-
     
 def randomDonador():
     donador = []
@@ -54,8 +61,8 @@ def randomDonador():
     m = names.get_full_name(gender='male')
     f = names.get_full_name(gender='female')
     winner = random.choice([m, f])
-    donador.append(winner)
-    donador.append(random_date("1/1/1970 1:30 PM", "1/1/2003 4:50 AM", random.random())[0:10])
+    donador.append(winner+" "+names.get_last_name())
+    donador.append(random_date(generarRangoFecha()[0], generarRangoFecha()[1], random.random()))
     donador.append(random.choice(["O", "A", "B", "AB"])+random.choice("-+"))
     if winner == m:
         donador.append(True)
@@ -65,6 +72,7 @@ def randomDonador():
     donador.append(str(random.randint(2000,9999))+"-"+str(random.randint(2000,9999)))
     donador.append(randomEmail(7))
     return donador
+
 
 def traducirLugar(lugar):
     """
@@ -80,6 +88,16 @@ def traducirLugar(lugar):
             return traduccion[traduccion.index(lugar)-1]
     else:
         return lugar
+
+def obtenerIndexLugar(lugar):
+    """
+    funcionamiento: Traduce el lugar según el número de cédula
+    entradas: lugar: lugar a traducir
+    salidas: Traduccion
+    """
+    traduccion =["San José","Alajuela","Cartago","Heredia","Guanacaste","Puntarenas","Limón","San José","San José"]
+    return str(traduccion.index(lugar)+1)
+
 def datosSangre(sangre):
     datos = ["se  les  recomienda donar  glóbulos  rojos  dobles  y  sangre entera.",
     "se   recomienda   donar   glóbulos   rojos dobles y sangre entera.",
