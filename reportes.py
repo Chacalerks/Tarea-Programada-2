@@ -13,7 +13,7 @@ from funciones import *
 def reporteProvincia(provincia,matriz):
     fecha = datetime.today().strftime('%d/%m/%Y')
     hora = datetime.now().strftime("%I:%M")
-    doc = dominate.document(title='Dominate your HTML')
+    doc = dominate.document(title='Reporte por provincia')
     donantes = []
     for i in matriz:
         if i[0][0] == provincia:
@@ -49,7 +49,7 @@ def reporteEdad(edadIni, edadFin, matriz):
     
     fecha = datetime.today().strftime('%d/%m/%Y')
     hora = datetime.now().strftime("%I:%M")
-    doc = dominate.document(title='Dominate your HTML')
+    doc = dominate.document(title='Reporte por rango de Edad')
     
     donantes = []
     for i in matriz:
@@ -57,9 +57,8 @@ def reporteEdad(edadIni, edadFin, matriz):
         annos = datetime.today() - fechaNaci
         annos = annos.days
         annos = annos // 365
-        if annos <= edadIni and annos >= edadFin:
+        if annos >= edadIni and annos <= edadFin:
             donantes.append(i)
-    print(donantes)
     with doc.head:
         link(rel='stylesheet', href='style.css')
 
@@ -90,15 +89,14 @@ def abrirPage(nombreFile):
     webbrowser.open_new_tab(nombreFile)
 
 
-matriz = [["118460455", "César Jiménez Salazar", "10/01/2003", "O+", "M", "66", "85296827", "ytcesarjs@gmail.com",1,0],["118460455", "César Jiménez Salazar", "10/06/2003", "O+", "M", "66", "85296827", "ytcesarjs@gmail.com",1,0],
-          ["118460455", "César Jiménez Salazar", "10/01/2003", "O+", "M", "66", "85296827", "ytcesarjs@gmail.com",1,0]]
+matriz = []
 
 #lista = ["118460455", "César Jiménez Salazar", "10/06/2003", "O+", "M", "66", "85296827", "ytcesarjs@gmail.com",1,0]
-#generarDonadores(,matriz)
+generarDonadores(50,matriz)
 
 #for i in matriz:
 #    print(str(i)+"\n")
 
 #crearArchivo('index.html',reporteProvincia("3",matriz))
-crearArchivo('rango.html',reporteEdad(18,18,matriz))
+crearArchivo('rango.html',reporteEdad(18,30,matriz))
 abrirPage('rango.html')

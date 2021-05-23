@@ -81,6 +81,7 @@ def crearFecha(edad):
     fecha = (datetime.today() + relativedelta(years=-edad)).strftime('%d/%m/%Y')
     fecha = datetime.strptime(fecha, '%d/%m/%Y')
     return fecha
+
 #matriz = []
 #lista = ["118460455", "César Jiménez Salazar", "10/06/2002", "O+", "M", "66", "85296827", "ytcesarjs@gmail.com"]
 #print(insertarDonador(lista, dicc))
