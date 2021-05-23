@@ -10,7 +10,7 @@ from datetime import datetime
 from funciones import *
 
 
-def donantesProvincia(provincia,matriz):
+def reporteProvincia(provincia,matriz):
     fecha = datetime.today().strftime('%d/%m/%Y')
     hora = datetime.now().strftime("%I:%M")
     doc = dominate.document(title='Dominate your HTML')
@@ -45,22 +45,21 @@ def donantesProvincia(provincia,matriz):
                         th(i[7])
     return str(doc)
 
-def donantesEdad(edadIni, edadFin, matriz):
+def reporteEdad(edadIni, edadFin, matriz):
     
     fecha = datetime.today().strftime('%d/%m/%Y')
     hora = datetime.now().strftime("%I:%M")
     doc = dominate.document(title='Dominate your HTML')
     
     donantes = []
-    
     for i in matriz:
-        edad = datetime.strptime(i[2], '%d/%m/%Y')
-        annos = datetime.today() - edad
+        fechaNaci = datetime.strptime(i[2], '%d/%m/%Y')
+        annos = datetime.today() - fechaNaci
         annos = annos.days
-        annos = annos / 365
-        if annos >= edadIni and annos < edadFin:
+        annos = annos // 365
+        if annos <= edadIni and annos >= edadFin:
             donantes.append(i)
-        
+    print(donantes)
     with doc.head:
         link(rel='stylesheet', href='style.css')
 
@@ -91,12 +90,15 @@ def abrirPage(nombreFile):
     webbrowser.open_new_tab(nombreFile)
 
 
-matriz = []
-generarDonadores(100,matriz)
+matriz = [["118460455", "César Jiménez Salazar", "10/01/2003", "O+", "M", "66", "85296827", "ytcesarjs@gmail.com",1,0],["118460455", "César Jiménez Salazar", "10/06/2003", "O+", "M", "66", "85296827", "ytcesarjs@gmail.com",1,0],
+          ["118460455", "César Jiménez Salazar", "10/01/2003", "O+", "M", "66", "85296827", "ytcesarjs@gmail.com",1,0]]
+
+#lista = ["118460455", "César Jiménez Salazar", "10/06/2003", "O+", "M", "66", "85296827", "ytcesarjs@gmail.com",1,0]
+#generarDonadores(,matriz)
 
 #for i in matriz:
 #    print(str(i)+"\n")
 
-#crearArchivo('index.html',donantesProvincia("1",matriz))
-crearArchivo('rango.html',donantesEdad(18,20,matriz))
+#crearArchivo('index.html',reporteProvincia("3",matriz))
+crearArchivo('rango.html',reporteEdad(18,18,matriz))
 abrirPage('rango.html')

@@ -56,7 +56,7 @@ def validarEdad(dob):
     fecha = datetime.strptime(dob, '%d/%m/%Y')
     resta = datetime.now() - fecha
     resta = resta.days
-    if resta >= 6575 and resta <= 38100:
+    if resta >= 6575 and resta <= 21900:
         return True
     else:
         return False
