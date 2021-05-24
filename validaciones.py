@@ -3,6 +3,11 @@ from datetime import datetime
 #----------------------------------------------------------------------------
 #                      Validaciones de Ingresar y Actualizar
 #----------------------------------------------------------------------------
+"""
+Documentación IMPORTANTE:
++En las intrucciones no decía especificamente el rango de edades para donar, solo referenciaba a un artículo y en este decía que solo en los que los donante no esta 
+    en buenas condiciones de salud no pueden continuar donando con más de 60 años, por lo que decidimos limitarlo a 65 años.
+"""
 def validarEntero(num):
     """
     Funcionamiento: Determina si el número es connveritble a  un entero
@@ -71,11 +76,14 @@ def validarFormatoFecha(dob):
     salidas: True: si la fecha SÍ es válida 
     False: si la fecha NO es válida
     """
+    year = dob[-4:]
+
     if re.match("^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19[0-9][0-9]|20[0-9][0-9])$", dob):
         return True
     else:
         return False
 
+print(validarFormatoFecha("12/08/2030"))
 def validarEdad(dob):
     """
     funcionamiento: se encarga de validar que el donante sea mayor a 18 años
@@ -86,10 +94,11 @@ def validarEdad(dob):
     fecha = datetime.strptime(dob, '%d/%m/%Y')
     resta = datetime.now() - fecha
     resta = resta.days
-    if resta >= 6575 and resta <= 21900:
+    if resta >= 6575 and resta < 23725+16:
         return True
     else:
         return False
+
 
 def validarCorreo(correo):
     """
@@ -150,7 +159,22 @@ def validarRangoEdad(edad):
     False: si la edad NO es mayor a 18 o si la edad es mayor a 60
     """
     try:
-        if int(edad) >= 18 and int(edad) < 60:
+        if int(edad) >= 18 and int(edad) < 65:
+            return True
+        else:
+            return False
+    except:
+        return False
+    
+def validarEdades(edad1,edad2):
+    """
+    funcionamiento: Se encarga de validar la edad que el usuario ingrese de un donante en los reportes
+    entradas: edad: la edad que haya ingresado
+    salidas: True: si la edad SI es igual o mayor a 18 y menor o igual a 60
+    False: si la edad NO es mayor a 18 o si la edad es mayor a 60
+    """
+    try:
+        if int(edad1) <= int(edad2):
             return True
         else:
             return False

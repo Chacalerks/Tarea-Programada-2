@@ -45,9 +45,10 @@ mainFrame = tk.Frame(root, bg=color["principal"])
 mainFrame.pack(fill=tk.BOTH, expand=1)
 
 #Cargar el inicio
-corazon_img = PhotoImage(file="D:\TEC\I SEMESTRE\Intro-Taller (Laura)\Taller\Tareas\Tarea Programada 2\Tarea-Programada-2\iconos\cardiogram.png")
+corazon_img = PhotoImage(file=".\iconos\cardiogram.png")
 corazon_lb = tk.Label(mainFrame, image=corazon_img, bd=0)
 corazon_lb.pack(side="top") 
+
 
 #Botones de navegación:
 #Insertar
@@ -77,8 +78,9 @@ provincia_btn.place(x=50, y=400, width=200)
 
 #Reportes
 reportes_btn = tk.Button(navFrame, text="Reportes",font="BahnschriftLight 12", bg=color["principal"],fg="white", activebackground="white",\
-activeforeground="black", bd=0, padx=60, pady=5, command=lambda:reportesPorProvincia(mainFrame, corazon_img, matriz))
-reportes_btn.place(x=50, y=480, width=200)
+activeforeground="black", bd=0, padx=60, pady=5, command=lambda:menuReportes(mainFrame, corazon_img, matriz))
+reportes_btn.place(x=50, y=480, 
+)
 
 #Cargar Ventana:
 root.mainloop()

@@ -5,6 +5,10 @@ from datetime import datetime
 import string
 from dateutil.relativedelta import relativedelta
 import time
+import webbrowser
+import dominate
+from dominate.tags import *
+from archivo import *
 
 def determinarPar(num):
     """
@@ -119,6 +123,18 @@ def obtenerLugares(lugar,dicc):
     for i in dicc[lugar]:
         lugares+="\t-"+i+"\n"
     return lugares
+
+def traducirSexo(sexo):
+    if sexo == True:
+        return "Masculino"
+    else:
+        return "Femenino"
+
+def traducirJustificacion(justificacion):
+    razones = ["Su peso bajó a menos de 50 kgms","El donante recibió un transplante de órgano",
+               "Enfermedades como: tuberculosis, cáncer o cualquier enfermedad coronaria.", "El donante es adicto a algún tipo de droga.",
+               "Padecióhepatitis B o C","Padeció mal de Chagas"]
+    return razones[justificacion-1]
 #----------------------------------------------------------------------------#
 #                           Base de datos                                    #
 #----------------------------------------------------------------------------#
@@ -166,6 +182,289 @@ def guardarLugar(datos,dicc):
     lugares.append(datos[1])
     dicc[datos[0]] = lugares
 
+#----------------------------------------------------------------------------#
+#                           Reportes                                         #
+#----------------------------------------------------------------------------#
+
+#Procesamiento
+def sacarDonantesProvincia(provincia,matriz):
+    donantes = []
+    for i in matriz:
+        if i[0][0] == provincia:
+            donantes.append(i)
+    return donantes
+
+def sacarDonantesRangoEdad(edadIni, edadFin, matriz):
+    donantes = []
+
+    for i in matriz:
+        year = int(i[2][-4:])
+        contadora = 0
+        while year <=2021:            
+            if determinarBisiestos(year):
+                contadora+=1
+            year+=1
+        fechaNaci = datetime.strptime(i[2], '%d/%m/%Y')
+        annos = datetime.today() - fechaNaci
+        annos = annos.days
+        annos = (annos-contadora) // 365
+        if annos >= edadIni and annos <= edadFin:
+            print(contadora)
+            donantes.append(i)
+    return donantes
+
+def determinarBisiestos(annos):
+    if annos % 4 == 0:
+        if annos % 100 == 0:
+            if annos % 400 == 0:
+                return True
+            else:
+                return False
+        else:
+           return True
+    else:
+        return False
+        
+def sacarDonantesTipoSangre(sangre,matriz):
+    donantes = []
+    for i in matriz:
+        if i[3] == sangre:
+            donantes.append(i)
+    return donantes
+
+def sacarDonantesActivos(matriz):
+    donantes = []
+    for i in matriz:
+        if i[8] == 1:
+           donantes.append(i)
+    return donantes 
+
+def sacarMujeresONegativo(matriz):
+    donantes = []
+    for i in matriz:
+        if i[4] == False and i[3] == "O-":
+           donantes.append(i)
+    return donantes
+
+def sacarAquienPuedeDonar(sangre, matriz):
+    donantes = []
+    for i in matriz:
+        if sangre == "O-":
+            donantes.append(i)
+        elif sangre == "O+":
+            if i[3] in ["O+","A+","B+","AB+"]:
+                donantes.append(i)
+        elif sangre == "A-":
+            if i[3] in ["A-","A+","AB-","AB+"]:
+                donantes.append(i)
+        elif sangre == "A+":
+            if i[3] in ["A+","AB+"]:
+                donantes.append(i)
+        elif sangre == "B-":
+            if i[3] in ["B-","B+","AB-","AB+"]:
+                donantes.append(i)
+        elif sangre == "B+":
+            if i[3] in ["B+", "AB+"]:
+                donantes.append(i)
+        elif sangre == "AB-":
+            if i[3] in ["AB-","AB+"]:
+                donantes.append(i)
+        else:
+            if i[3] == "AB+":
+                donantes.append(i)
+    return donantes
+
+def sacarDeQuienPuedeRecibir(sangre, matriz):
+    donantes = []
+    for i in matriz:
+        if sangre == "AB+":
+            donantes.append(i)
+        elif sangre == "AB-":
+            if i[3] in ["O-","A-","B-","AB-"]:
+                donantes.append(i)
+        elif sangre == "B+":
+            if i[3] in ["O-","O+","B-","B+"]:
+                donantes.append(i)
+        elif sangre == "B-":
+            if i[3] in ["O-","B-"]:
+                donantes.append(i)
+        elif sangre == "A+":
+            if i[3] in ["O-","O+","A-","A+"]:
+                donantes.append(i)
+        elif sangre == "A-":
+            if i[3] in ["O-", "A-"]:
+                donantes.append(i)
+        elif sangre == "O+":
+            if i[3] in ["O-","O+"]:
+                donantes.append(i)
+        else:
+            if i[3] == "O-":
+                donantes.append(i)
+    return donantes
+
+def sacarNoActivos(matriz):
+    donantes = []
+    for i in matriz:
+        if i[8] == 0:
+           donantes.append(i)
+    return donantes 
+
+def reportePlantillaCorta(donantes,nomReporte):
+    fecha = datetime.today().strftime('%d/%m/%Y')
+    hora = datetime.now().strftime("%I:%M %p")
+    doc = dominate.document(title='Reporte por '+nomReporte)
+    with doc.head:
+        link(rel='stylesheet', href='style.css')
+
+    with doc:
+        with div(id='header'):
+            h1("Donadores por "+nomReporte)
+            h2('Fecha: '+fecha)
+            h2('Hora: '+hora)
+            
+        with div(cls='body'):
+            with table(cls='tabla'):
+                with tr(cls="titulos"):
+                    th('Cédula')
+                    th('Nombre Completo')
+                    th('Fecha de Nacimiento')
+                    th('Teléfono')
+                    th('Correo') 
+                for i in donantes:
+                    with tr():
+                        th(i[0])
+                        th(i[1])
+                        th(i[2])
+                        th(i[6])
+                        th(i[7])
+    return str(doc)
+
+def reporteSangre(donantes,nomReporte):
+    fecha = datetime.today().strftime('%d/%m/%Y')
+    hora = datetime.now().strftime("%I:%M %p")
+    doc = dominate.document(title='Reporte '+nomReporte)
+    with doc.head:
+        link(rel='stylesheet', href='style.css')
+
+    with doc:
+        with div(id='header'):
+            h1("Donadores "+nomReporte)
+            h2('Fecha: '+fecha)
+            h2('Hora: '+hora)
+            
+        with div(cls='body'):
+            with table(cls='tabla'):
+                with tr(cls="titulos"):
+                    th('Cédula')
+                    th('Nombre Completo')
+                    th('Tipo de sangre')
+                    th('Teléfono')
+                    th('Correo') 
+                for i in donantes:
+                    with tr():
+                        th(i[0])
+                        th(i[1])
+                        th(i[3])
+                        th(i[6])
+                        th(i[7])
+    return str(doc)
+
+def reporteTotal(donantes):
+    
+    fecha = datetime.today().strftime('%d/%m/%Y')
+    hora = datetime.now().strftime("%I:%M %p")
+    doc = dominate.document(title='Reporte del total de donadores')
+    
+    with doc.head:
+        link(rel='stylesheet', href='style.css')
+
+    with doc:
+        with div(id='header'):
+            h1("Total de donadores")
+            h2('Fecha: '+fecha)
+            h2('Hora: '+hora)
+            
+        with div(cls='body'):
+            with table(cls='tabla'):
+                with tr(cls="titulos"):
+                    th('Cédula')
+                    th('Nombre Completo')
+                    th('Fecha de Nacimiento')
+                    th('Tipo de sangre')
+                    th('Sexo')
+                    th('Peso')
+                    th('Teléfono')
+                    th('Correo') 
+                for i in donantes:
+                    with tr():
+                        th(i[0])
+                        th(i[1])
+                        th(i[2])
+                        th(i[3])
+                        th(traducirSexo(i[4]))
+                        th(str(i[5]))
+                        th(i[6])
+                        th(i[7])
+    return str(doc)
+
+def reporteNoActivos(donantes):
+    """
+    funcionamiento: 
+    """
+    fecha = datetime.today().strftime('%d/%m/%Y')
+    hora = datetime.now().strftime("%I:%M %p")
+    doc = dominate.document(title='Reporte del total de donadores no activos')
+    
+    with doc.head:
+        link(rel='stylesheet', href='style.css')
+
+    with doc:
+        with div(id='header'):
+            h1("Total de donadores no activos")
+            h2('Fecha: '+fecha)
+            h2('Hora: '+hora)
+            
+        with div(cls='body'):
+            with table(cls='tabla'):
+                with tr(cls="titulos"):
+                    th('Justificación')
+                    th('Cédula')
+                    th('Nombre Completo')
+                    th('Fecha de Nacimiento')
+                    th('Tipo de sangre')
+                    th('Sexo')
+                    th('Peso')
+                    th('Teléfono')
+                    th('Correo') 
+                for i in donantes:
+                    with tr():
+                        th(traducirJustificacion(i[-1]))
+                        th(i[0])
+                        th(i[1])
+                        th(i[2])
+                        th(i[3])
+                        th(traducirSexo(i[4]))
+                        th(str(i[5]))
+                        th(i[6])
+                        th(i[7])
+    return str(doc)
 
 
+def abrirPage(nombreFile):
+    webbrowser.open_new_tab(nombreFile)
 
+
+def reporteAquienPuedeDonarES(sangre, matriz):
+    crearArchivo("aquienDonar.html",reporteSangre(sacarAquienPuedeDonar(sangre,sacarDonantesActivos(matriz)),"a quien puedo donar"))
+    abrirPage("aquienDonar.html")
+
+def reporteDeQuienPuedeRecibirES(sangre,matriz):
+    crearArchivo("dequienRecibir.html",reporteSangre(sacarDeQuienPuedeRecibir(sangre,sacarDonantesActivos(matriz)),"de quien puedo recibir"))
+    abrirPage("dequienRecibir.html")
+
+def reporteNoActivosES(matriz):
+    crearArchivo("noActivos.html",reporteNoActivos(sacarNoActivos(matriz)))
+    abrirPage("noActivos.html")
+
+#reporteNoActivosES(matriz)    
+#reporteAquienPuedeDonarES("O-",matriz)

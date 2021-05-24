@@ -118,8 +118,10 @@ def ingresarDatosValidaciones(mainFrame,corazon_img,datos,matriz,categoria,dicc)
         messagebox.showwarning(title=tittle, message="Ya se encuentra un donador registrado con esa cédula")
     elif not validarNombre(datosString[1]):
         messagebox.showwarning(title=tittle, message="Debe de ser el nombre completo")
-    elif not validarFecha(datosString[2]):
+    elif not validarFormatoFecha(datosString[2]):
         messagebox.showwarning(title=tittle, message="Fecha inválida")
+    elif not validarEdad(datosString[2]):
+         messagebox.showwarning(title=tittle, message="No tiene la edad adecuada para ser donante")
     elif not validarVacio(datosString[3]):
         messagebox.showwarning(title=tittle, message="Debe selecionar el tipo de sangre")
     elif not validarPeso(datosString[5]):
