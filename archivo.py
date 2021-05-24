@@ -5,23 +5,33 @@
 
 import pickle
 def leerDatos(nomArchLeer):
-    dicc={}
+    """
+    Funcionamiento: Lee los datos guardados en memoria secundaria
+    Entradas: El nombre del archivos
+    Salidas: La base de datoss cargada. 
+    """
+    matriz=[]
     try:
         f=open(nomArchLeer,"rb")
-        dicc = pickle.load(f)
+        matriz = pickle.load(f)
         f.close()
     except:
         print("No se ha encontrado datos registrados en: ", nomArchLeer)
-    return dicc
+    return matriz
 
-def guardarDatos(nomArchGrabar,dicc):
+def guardarDatos(nomArchGrabar,matriz):
+    """
+    Funcionamiento: Almacena datos en memoria secuandaria
+    Entradas: El nombre del archivos, los datos a almacenar
+    Salidas: Confirmación. 
+    """
     try:
         f=open(nomArchGrabar,"wb")
-        pickle.dump(dicc,f)
+        pickle.dump(matriz,f)
         f.close()
     except:
         print("Error al grabar el archivo: ", nomArchGrabar)
-    return False
+    return
 
 def crearArchivo(nomArchGrabar,html):
     try:

@@ -1,11 +1,8 @@
-#Creado por: César Jiménez Salazar y Maynor Erks Martínez Hernández.
-#Fecha de realización:11/05/2021 06:25 p.m.
-#Última modificación:11/05/2021 09:10  p.m.
-#Versión: 3.9.5
-
 import re
 from datetime import datetime
-
+#----------------------------------------------------------------------------
+#                      Validaciones de Ingresar y Actualizar
+#----------------------------------------------------------------------------
 def validarEntero(num):
     """
     Funcionamiento: Determina si el número es connveritble a  un entero
@@ -21,7 +18,40 @@ def validarEntero(num):
             return True
     except ValueError:
         return False
+        
+def validarVacio(texto):
+    """
+    Funcionamiento: Determina si la valiarble es vacía
+    Entradas: texto(string): la varaiable a validar 
+    Salidas: True/False de la condición dada (texto vacío)
+    """
+    if texto!="":
+        return True
+    else:
+        return False
 
+def enteroMayorCero(num):
+    """
+    Funcionamiento: Determina si el número mayor a cero
+    Entradas: num(int): el número a válidar
+    Salidas: True/Fase de la condición dada (mayor a cero)
+    """
+    if num >0:
+        return True
+    else:
+        return False
+
+def validarNombre(nombre):
+    """
+    funcionamiento: Se encarga de validar que el nombre ingresado por el usuario sea válido
+    entradas: nombre: elnombre del donador a validar
+    salidas: true/false según la condición dada (nombre válido)
+    """
+    if re.match("^[a-zA-Z]+\ [a-zA-Z]+\ (([a-zA-Z]+\ [a-zA-Z]+)|[a-zA-Z]+)$", nombre):
+        return True
+    else:
+        return False
+    
 def validarCedula(id):
     """
     funcionamiento: Se encarga de validar que el numero de cedula ingresado por el usuario sea válido
