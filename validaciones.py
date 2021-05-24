@@ -1,3 +1,8 @@
+#Creado por: César Jiménez Salazar y Maynor Erks Martínez Hernández.
+#Fecha de realización:06/05/2021 07:21 p.m
+#Última modificación:24/05/2021 1:20  a.m
+#Versión: 3.9.5
+
 import re
 from datetime import datetime
 #----------------------------------------------------------------------------
@@ -77,9 +82,16 @@ def validarFormatoFecha(dob):
     False: si la fecha NO es válida
     """
     year = dob[-4:]
+    moth = dob[3:6]
+    day = dob[:3]
+#^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19[0-9][0-9]|20[0-9][0-9])$"
 
     if re.match("^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19[0-9][0-9]|20[0-9][0-9])$", dob):
-        return True
+        try:
+            datetime.strptime(dob, '%d/%m/%Y')
+            return True
+        except ValueError:
+            return False
     else:
         return False
 

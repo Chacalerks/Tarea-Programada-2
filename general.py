@@ -1,5 +1,12 @@
+#Creado por: César Jiménez Salazar y Maynor Erks Martínez Hernández.
+#Fecha de realización:06/05/2021 07:21 p.m
+#Última modificación:24/05/2021 1:20  a.m
+#Versión: 3.9.5
+
 from tkinter import BooleanVar, StringVar
 import tkinter as tk
+from tkinter import messagebox
+import time
 
 color = {"fondo":"#F0F0F0", "sidebar":"#052744", "topbar":"#0D5D8C", "caja": "#BFBFBF" ,  "principal": "#043E79", "secundario": "#043E79","tercero":"#0E3D5E"}
 tittle = "Sistema de donación"
@@ -13,10 +20,14 @@ def cargarInicio(mainFrame, corazon_img):
     Salidas: NA
     """
     limpiarFrame(mainFrame)
-    corazon_lb = tk.Label(mainFrame, image=corazon_img, bd=0)
+    tk.Label(mainFrame, bg=color["principal"], text="",pady=25).pack(side="top")
+    corazon_lb = tk.Label(mainFrame, image=corazon_img, bd=0,bg=color["principal"])
     corazon_lb.pack(side="top")
+    tk.Label(mainFrame, text="Donar sangre, es donar vida", font="Bahnschrift 16", bg=color["principal"], fg="white", height=1, padx=20,pady=25).pack(side="top")
 
-
+def salir():
+    messagebox.showinfo(title=tittle, message="Donar sangre, es donar vida")
+    exit()
 def limpiarFrame(mainFrame):
     """
     Funcionamiento: Se encarga de crear todos lo elementos del formulario insertar.

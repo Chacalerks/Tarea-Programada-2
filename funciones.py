@@ -1,3 +1,8 @@
+#Creado por: César Jiménez Salazar y Maynor Erks Martínez Hernández.
+#Fecha de realización:06/05/2021 07:21 p.m
+#Última modificación:24/05/2021 1:20  a.m
+#Versión: 3.9.5
+
 from validaciones import *
 import names
 import random
@@ -167,7 +172,6 @@ def actulizarDonador(datos, matriz):
     """
     matriz[matriz.index(datos)] = datos
 
-
 #----------------------------------------------------------------------------#
 #                           Provincias                                       #
 #----------------------------------------------------------------------------#
@@ -192,11 +196,12 @@ def sacarDonantesProvincia(provincia,matriz):
     for i in matriz:
         if i[0][0] == provincia:
             donantes.append(i)
+        elif provincia == "1" and (i[0][0] == "8" or i[0][0] == "9"):
+            donantes.append(i)
     return donantes
 
 def sacarDonantesRangoEdad(edadIni, edadFin, matriz):
     donantes = []
-
     for i in matriz:
         year = int(i[2][-4:])
         contadora = 0
@@ -315,6 +320,8 @@ def reportePlantillaCorta(donantes,nomReporte):
     doc = dominate.document(title='Reporte por '+nomReporte)
     with doc.head:
         link(rel='stylesheet', href='style.css')
+        link(rel="preconnect", href="https://fonts.gstatic.com/%22")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Abel&display=swap%22")
 
     with doc:
         with div(id='header'):
@@ -345,6 +352,8 @@ def reporteSangre(donantes,nomReporte):
     doc = dominate.document(title='Reporte '+nomReporte)
     with doc.head:
         link(rel='stylesheet', href='style.css')
+        link(rel="preconnect", href="https://fonts.gstatic.com/%22")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Abel&display=swap%22")
 
     with doc:
         with div(id='header'):
@@ -377,6 +386,8 @@ def reporteTotal(donantes):
     
     with doc.head:
         link(rel='stylesheet', href='style.css')
+        link(rel="preconnect", href="https://fonts.gstatic.com/%22")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Abel&display=swap%22")
 
     with doc:
         with div(id='header'):
@@ -402,7 +413,7 @@ def reporteTotal(donantes):
                         th(i[2])
                         th(i[3])
                         th(traducirSexo(i[4]))
-                        th(str(i[5]))
+                        th(str(i[5])+" Kg")
                         th(i[6])
                         th(i[7])
     return str(doc)
@@ -417,6 +428,8 @@ def reporteNoActivos(donantes):
     
     with doc.head:
         link(rel='stylesheet', href='style.css')
+        link(rel="preconnect", href="https://fonts.gstatic.com/%22")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Abel&display=swap%22")
 
     with doc:
         with div(id='header'):
@@ -444,7 +457,7 @@ def reporteNoActivos(donantes):
                         th(i[2])
                         th(i[3])
                         th(traducirSexo(i[4]))
-                        th(str(i[5]))
+                        th(str(i[5])+" Kg")
                         th(i[6])
                         th(i[7])
     return str(doc)

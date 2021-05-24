@@ -1,3 +1,8 @@
+#Creado por: César Jiménez Salazar y Maynor Erks Martínez Hernández.
+#Fecha de realización:06/05/2021 07:21 p.m
+#Última modificación:24/05/2021 1:20  a.m
+#Versión: 3.9.5
+
 from tkinter import PhotoImage
 import tkinter as tk
 
@@ -5,6 +10,7 @@ from ingresar import*
 from generar import*
 from eliminar import*
 from provincias import *
+from about import *
 
 from general import*
 from funciones import *
@@ -17,11 +23,10 @@ dicc = leerDatos('provincias')
 
 print(matriz)
 print("\n\n")
-print(dicc)    
+print(dicc)
+
 # diccionario de colores
 color = {"fondo":"#F0F0F0", "sidebar":"#052744", "topbar":"#0D5D8C", "caja": "#BFBFBF" ,  "principal": "#043E79", "secundario": "#043E79","tercero":"#0E3D5E"}
-
-
 
 #Configuaricón de la ventana
 root = tk.Tk()
@@ -46,8 +51,10 @@ mainFrame.pack(fill=tk.BOTH, expand=1)
 
 #Cargar el inicio
 corazon_img = PhotoImage(file=".\iconos\cardiogram.png")
-corazon_lb = tk.Label(mainFrame, image=corazon_img, bd=0)
+tk.Label(mainFrame, bg=color["principal"], text="",pady=25).pack(side="top")
+corazon_lb = tk.Label(mainFrame, image=corazon_img, bd=0,bg=color["principal"])
 corazon_lb.pack(side="top") 
+tk.Label(mainFrame, text="Donar sangre, es donar vida", font="Bahnschrift 16", bg=color["principal"], fg="white", height=1, padx=20,pady=25).pack(side="top")
 
 
 #Botones de navegación:
@@ -79,8 +86,17 @@ provincia_btn.place(x=50, y=400, width=200)
 #Reportes
 reportes_btn = tk.Button(navFrame, text="Reportes",font="BahnschriftLight 12", bg=color["principal"],fg="white", activebackground="white",\
 activeforeground="black", bd=0, padx=60, pady=5, command=lambda:menuReportes(mainFrame, corazon_img, matriz))
-reportes_btn.place(x=50, y=480, 
-)
+reportes_btn.place(x=50, y=480,width=200)
+
+#Salir
+salir_btn = tk.Button(navFrame, text="Salir",font="BahnschriftLight 12", bg=color["principal"],fg="white", activebackground="white",\
+activeforeground="black", bd=0, padx=60, pady=5, command=salir)
+salir_btn.place(x=50, y=560,width=200)
+
+#Acerca de 
+acerca_btn = tk.Button(navFrame, text="Acerca de",font="BahnschriftLight 12", bg=color["principal"],fg="white", activebackground="white",\
+activeforeground="black", bd=0, padx=60, pady=5, command=lambda:about(mainFrame, corazon_img, matriz))
+acerca_btn.place(x=50, y=800,width=200)
 
 #Cargar Ventana:
 root.mainloop()

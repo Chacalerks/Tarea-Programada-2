@@ -1,6 +1,6 @@
 #Creado por: César Jiménez Salazar y Maynor Erks Martínez Hernández.
-#Fecha de realización:22/05/2021 07:21 p.m.
-#Última modificación:24/05/2021 09:10  p.m.
+#Fecha de realización:06/05/2021 07:21 p.m
+#Última modificación:24/05/2021 1:20  a.m
 #Versión: 3.9.5
 
 from tkinter import messagebox
