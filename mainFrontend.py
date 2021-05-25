@@ -3,6 +3,13 @@
 #Última modificación:24/05/2021 1:20  a.m
 #Versión: 3.9.5
 
+"""
+Documentación IMPORTANTE:
++La interfaz del main no se cuentra una función y es por custiones de eficiencia y menos exigencia al procesador, ya que los frames no cambian solo el main 
+    el top bar y el nav bar no cambia y volver a ejecutarlo en una función recursuva hace que se destruya y se vuelva a crear haciendo que el procesador 
+    ejecute instrucciones inecesarias.
+"""
+
 from tkinter import PhotoImage
 import tkinter as tk
 

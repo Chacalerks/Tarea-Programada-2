@@ -184,6 +184,7 @@ def guardarLugar(datos,dicc):
     lugares = []
     lugares = dicc[datos[0]]
     lugares.append(datos[1])
+    print("esta es la provincia "+datos[0])
     dicc[datos[0]] = lugares
 
 #----------------------------------------------------------------------------#

@@ -64,6 +64,6 @@ desarrollo del programa."
 
     tk.Label(grupo, text="Programa realizado para la II Tarea Programada \n\
 del curso de Taller de Prgramación GR2\n\
-del Tecnológico de Costa Rica.\n\nLa figura del corazón fue creada por: Freepik y recuperada de: www.flaticon.com ",font="BahnschriftLight 10",justify=LEFT, bg=color["fondo"],fg="black", pady=50, padx=20).grid(row=4, column=0)
+del Tecnológico de Costa Rica.\n\nLa figura del corazón fue creada por: Freepik y recuperada de: www.flaticon.com \n\nVersión 1.5",font="BahnschriftLight 10",justify=LEFT, bg=color["fondo"],fg="black", pady=50, padx=20).grid(row=4, column=0)
 
     tk.Label(grupo, text="",font="BahnschriftLight 15",justify=LEFT, bg=color["fondo"],fg="black", pady=50, padx=20).pack()

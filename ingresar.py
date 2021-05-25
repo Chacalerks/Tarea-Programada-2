@@ -162,14 +162,3 @@ def informacionInicial(sangre,cedula,dicc):
     info = "Información \n\n+Su sangre es de tipo "+sangre+" ,por esto "+datosSangre(sangre) + "\n\n+" +datosLugares(cedula,dicc)       
     messagebox.showinfo(title="IMPORTANTE", message=info)
     
-
-provincias = {'San Jose':['Esto es una puralsd de guare', 'Hospital Mexico', 'Hospital San Juan de Dios'],
-           'Alajuela':['Hospiital San Rafael de Alajuela','Hospital de San Ramon','Hospital de Canton Norteno'],
-           'Cartago':['Hospital Max Peralta'],
-           'Heredia':['Hospital San Vicente de Paul'],
-           'Guanacaste':['Hospital La Anexión de Nicoya','Hospital Enrique Baltodano de Liberia'],
-           'Puntarenas':['Hospital Monseñor Sanabria'],
-           'Limon':['Hospital Tony Facio','Hospital de Gupiles']}
-           
-guardarDatos('provincias',provincias)
-print(provincias)

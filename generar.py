@@ -39,3 +39,15 @@ def generarDonadoresValidaciones(cantidad,matriz):
     generarDonadores(cantidad,matriz)
     guardarDatos('datos',matriz)
     messagebox.showinfo(title=tittle, message="Se han generado "+str(cantidad)+" donadores correctamente")
+
+"""
+dicc = {'San Jose':['El banco nacional de sangre', 'Hospital Mexico', 'Hospital San Juan de Dios'],
+           'Alajuela':['Hospiital San Rafael de Alajuela','Hospital de San Ramon','Hospital de Canton Norteno'],
+           'Cartago':['Hospital Max Peralta'],
+           'Heredia':['Hospital San Vicente de Paul'],
+           'Guanacaste':['Hospital La Anexión de Nicoya','Hospital Enrique Baltodano de Liberia'],
+           'Puntarenas':['Hospital Monseñor Sanabria'],
+           'Limon':['Hospital Tony Facio','Hospital de Gupiles']}
+
+guardarDatos('provincias',dicc)
+"""

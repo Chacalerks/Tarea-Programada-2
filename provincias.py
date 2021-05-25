@@ -63,10 +63,8 @@ def ingresarLugarES(datos,dicc):
         messagebox.showwarning(title=tittle, message="Este lugar ya se encuentra registrado")
     else:
         guardarLugar(datosString,dicc)
-        guardarDatos('provincias',dicc)
-        
+        guardarDatos('provincias',dicc)        
         print(dicc)
         messagebox.showinfo(title=tittle, message="Se ha registrado un nuevo lugar")
-
 
 
